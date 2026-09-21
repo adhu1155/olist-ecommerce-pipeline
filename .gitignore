@@ -1,0 +1,17 @@
+# Ignore data files
+data/
+*.csv
+*.zip
+
+# Ignore Airflow logs
+logs/
+
+# Ignore dbt artifacts
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/
+
+# General
+__pycache__/
+*.pyc
+.env
