@@ -11,6 +11,9 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AWS_ACCESS_KEY_ID: admin
     AWS_SECRET_ACCESS_KEY: password
+    _PIP_ADDITIONAL_REQUIREMENTS: apache-airflow-providers-amazon pandas psycopg2-binary dbt-postgres
+    AIRFLOW_CONN_MINIO_CONN: aws://admin:password@?endpoint_url=http%3A%2F%2Fminio%3A9000
+    AIRFLOW_CONN_POSTGRES_WAREHOUSE: postgresql://airflow:airflow@postgres:5432/warehouse
   volumes:
     - ./dags:/opt/airflow/dags
     - ./logs:/opt/airflow/logs
