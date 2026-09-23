@@ -10,3 +10,7 @@ sources:
       - name: raw_olist_order_payments_dataset
       - name: raw_olist_order_items_dataset
       - name: raw_olist_products_dataset
+      - name: raw_olist_sellers_dataset
+      - name: raw_olist_order_reviews_dataset
+      - name: raw_olist_geolocation_dataset
+      - name: raw_product_category_name_translation

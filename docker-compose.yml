@@ -1,4 +1,4 @@
-version: '3.8'
+
 x-airflow-common:
   &airflow-common
   image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.7.1}
@@ -15,11 +15,11 @@ x-airflow-common:
     AIRFLOW_CONN_MINIO_CONN: aws://admin:password@?endpoint_url=http%3A%2F%2Fminio%3A9000
     AIRFLOW_CONN_POSTGRES_WAREHOUSE: postgresql://airflow:airflow@postgres:5432/warehouse
   volumes:
-    - ./dags:/opt/airflow/dags
-    - ./logs:/opt/airflow/logs
-    - ./plugins:/opt/airflow/plugins
-    - ./data:/opt/airflow/data
-    - ./dbt:/opt/airflow/dbt
+    - ./dags:/opt/airflow/dags:z
+    - ./logs:/opt/airflow/logs:z
+    - ./plugins:/opt/airflow/plugins:z
+    - ./data:/opt/airflow/data:z
+    - ./dbt:/opt/airflow/dbt:z
   depends_on:
     &airflow-common-depends-on
     postgres:
@@ -34,13 +34,13 @@ services:
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-init:/docker-entrypoint-initdb.d:z
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 5s
       retries: 5
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   minio:
     image: minio/minio:latest
@@ -60,7 +60,7 @@ services:
       retries: 3
 
   minio-init:
-    image: minio/mc:latest
+    image: quay.io/minio/mc:latest
     depends_on:
       minio:
         condition: service_healthy

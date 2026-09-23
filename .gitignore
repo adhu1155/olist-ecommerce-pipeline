@@ -15,3 +15,4 @@ dbt/logs/
 __pycache__/
 *.pyc
 .env
+GEMINI.md

@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: "Fact table for orders aggregated at the header level."
+    columns:
+      - name: order_id
+        description: "Primary key for the order."
+        tests:
+          - unique
+          - not_null
+          
+  - name: dim_products
+    description: "Dimension table for products."
+    columns:
+      - name: product_id
+        description: "Primary key for products."
+        tests:
+          - unique
+          - not_null
+          
+  - name: dim_sellers
+    description: "Dimension table for sellers."
+    columns:
+      - name: seller_id
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_order_items
+    description: "Line item fact table linking orders, products, and sellers."
+    columns:
+      - name: order_item_id
+        tests:
+          - not_null
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('fact_orders')
+              field: order_id
+      - name: product_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: product_id
+      - name: seller_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sellers')
+              field: seller_id
